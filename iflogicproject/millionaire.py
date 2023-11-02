@@ -47,6 +47,8 @@ def main():
         elif (useranswer == theGame[str(counter)]["answer"]):
             winnings= int(valuesList[str(counter)])
             print("CORRECT!")
+            time.sleep(1)
+            os.system('clear')
             counter += 1
         else:
             print("I'm sorry, that's incorrect. The correct answer was "+theGame[str(counter)]["answer"]+". Better luck next time!")
