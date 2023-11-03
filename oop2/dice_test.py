@@ -7,6 +7,8 @@ Creating a simple dice program utilizing classes."""
 from cheatdice import Player
 from cheatdice import Cheat_Swapper
 from cheatdice import Cheat_Loaded_Dice
+from cheatdice import Cheat_Additional_Die
+from cheatdice import Cheat_Mulligan
 
 def main():
     """run-time code"""
@@ -15,13 +17,22 @@ def main():
     cheater1 = Cheat_Swapper() # ability is to change 3rd dice roll to 6
     cheater2 = Cheat_Loaded_Dice() # increase all rolls by +1 provided they are < 6
 
+    cheater3 = Cheat_Additional_Die()
+    cheater4 = Cheat_Mulligan()
+
     # both players take turns
     cheater1.roll()
     cheater2.roll()
 
+    cheater3.roll()
+    cheater4.roll()
+
     # both players use their cheat methods
     cheater1.cheat()
     cheater2.cheat()
+
+    cheater3.cheat()
+    cheater4.cheat()
 
     print(f"Cheater 1 rolled {cheater1.get_dice()}")
     print(f"Cheater 2 rolled {cheater2.get_dice()}")
@@ -34,6 +45,20 @@ def main():
 
     else:
         print("Cheater 2 wins!")
+
+    print("")
+
+    print(f"Cheater 3 rolled {cheater3.get_dice()}")
+    print(f"Cheater 4 rolled {cheater4.get_dice()}")
+
+    if sum(cheater3.get_dice()) == sum(cheater4.get_dice()):
+        print("Draw!")
+
+    elif sum(cheater3.get_dice()) > sum(cheater4.get_dice()):
+        print("Cheater 3 wins!")
+
+    else:
+        print("Cheater 4 wins!")
 
 if __name__ == "__main__":
     main()
