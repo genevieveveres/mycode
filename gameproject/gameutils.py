@@ -23,5 +23,25 @@ def showHelp():
       get [item]
       use [item]
       inventory
-      help
+      help (this screen)
+      spoil (directions to win)
+    ''')
+
+def spoilers():
+    print('''
+    To win the game in as few moves as possible, enter the following:
+      -go up
+      -get tome
+      -go east
+      -go south
+      -get candles
+      -go down
+      -go north
+      -go north
+      -go west
+      -go down
+      -go north
+      -get knife
+      -go east
+    The above commands must be entered in order from the starting point of the game. 
     ''')

@@ -41,7 +41,7 @@ interested in leaving the house to go after them anyway though. \n
 \tTo the west is the Kitchen.''',
                 "west" : "Kitchen",
                 "up" : "Bedroom",
-                "items": []
+                "items": ["strangers"]
             },
             "Hallway" : {
                 "description" : '''You are in the Upstairs Hallway. \n
@@ -85,3 +85,51 @@ late nights spent working past dark. A few of them are still usable.''',
 
           }
     return rooms
+
+def getyabodyback():
+    print('''
+You enter the garden with the candles and the words for the chant at the top of your mind. 
+You arrange the candles in a circle around the obelisk and the second the last one is in place
+flames spring from the wick of each candle. 
+
+You recite the words:
+    Tuc dna. Em pleh os! Em pleh os! Em pleh os ro morf emac ti erehw kcab luos ym tup!
+
+There is darkness, and cold. Then, you feel... heavy. But you also feel strangely - inhumanley,
+perhaps - strong. You throw off the fabric around you, rise out of the bed for the first time
+in ... months? years? decades? into the Bedroom. 
+
+Now, there seem to be some unwanted guests around... what to do about them...
+    ''')
+
+
+def endings():
+    endings = [
+        ''''\n\n 
+You continue to haunt your house in this rotting sack forever, until you are nothing but a skeleton, \n\t...then nothing but dust \n\t\t...then nothing but a ghost again.\n\n''',
+
+        '''The are strangers resting in sleeping bags surrounded by a circle of salt on the 
+Living Room floor. There is various equipment positioned around the room, but none of it 
+makes a sound. The ghost hunters remain asleep and you use the knife to clear them out. ''',
+
+        '''The strangers are back with some new tools to use against you, 
+but it's clear they were expecting a ghost.
+When they see your newly reinhabited body and the knife in your hands they exchange a look, 
+then bolt out the front door behind them before you can catch up to them.
+This time, you know they are gone for good.''',
+
+        '''The strangers are back with some new tools to use against you, 
+but it's clear they were expecting a ghost.
+When they see your newly reinhabited body and the knife in your hands you see the panic in their eyes
+You expected your half decomposed body to be slow, but that is not the case, and they 
+cannot escape the point of your knife''',
+
+        '''The strangers are back with some new tools to use against you, 
+but it's clear they were expecting a ghost.
+When they see your newly reinhabited body and the knife in your hands panic briefly flashes through their eyes. 
+Without a weapon to fight them off though, they overpower you quickly, and soon enough you are no more.''',
+
+        '''The ghost hunters are back with some new tools to use against you. They point the nozzle
+of their strange machine at you, say words that make you glow and burn, and then you are no more. '''
+    ]
+    return endings
