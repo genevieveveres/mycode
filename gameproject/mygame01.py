@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import descriptions
 from gameutils import *
 """Driving a simple game framework with
    a dictionary object | Alta3 Research"""
@@ -16,99 +17,33 @@ def showStatus():
         print(rooms[currentRoom]["item_desc"])
     print("---------------------------")
 
+def getyabodyback():
+    print('''
+You enter the garden with the candles and the words for the chant at the top of your mind. 
+You arrange the candles in a circle around the obelisk and the second the last one is in place
+flames spring from the wick of each candle. 
 
-# an inventory, which is initially empty
-inventory = []
+You recite the words:
+    Tuc dna. Em pleh os! Em pleh os! Em pleh os ro morf emac ti erehw kcab luos ym tup!
 
-## A dictionary linking a room to other rooms
-rooms = {
-            "Garden" : {
-                "description" : '''You are in the Garden, though none of the plants
-                have a spent of green or a solitary petal on them. \n
-                To the south you see the door back into the house.\n
-                In front of you, in the center of the garden, you see an obelisk inscribed with the following:\n
-                \tBy Fire and Chant
-                \tI Bind Thee Back''',
-                "south" : "Kitchen",
-            },
-            "Kitchen" : {
-                "description" : '''You are in the Kitchen.\n
-                To the north is a door leading to the Garden.\n
-                To the south you see the Foyer.\n
-                To the east is a beaded curtain, behind which is the Living Room\n''',
-                "item_desc" : '''On the kitchen table there are plates, cups, and 
-                utensils covered in the remains of a recent meal. \n
-                A shiny knife that you don't recognize catches your eye.''',
-                "north" : "Garden",
-                "south" : "Foyer",
-                "east" : "Living Room",
-                "up" : "Library",
-                "items": ["knife"]
-            },
-            "Foyer" : {
-                "description" : '''The Foyer of the house greets people who come in the
-                front door with a glorious chandelier, now covered in cobwebs. \n
-                You don't feel the desire to leave the house. The kitchen is to the north.''',
-                "north" : "Kitchen",
-                "up" : "Office",
-            },
-            "Living Room" : {
-                "description" : '''There is strange equipment piled around the Living Room.\n
-                The circle of salt that the strangers were sleeping within \n
-                was ruined when they scampered out through the side door, which is \n 
-                still ajar. You aren't interested in leaving the house to go after them anyway though. \n
-                To the west is the Kitchen.''',
-                "west" : "Kitchen",
-                "up" : "Bedroom",
-                "items": ["exorcists"]
-            },
-            "Upstairs Hallway" : {
-                "description" : '''You are in the Upstairs Hallway. \n
-                There are stairs leading back down into the kitchen. \n
-                The door to the Bedroom is to the east. \n
-                The door to the Library is to the west. \n
-                The door to the Office is to the south.\n''',
-                "south" : "Office",
-                "east" : "Bedroom",
-                "west" : "Library",
-                "down" : "Kitchen",
-            },
-            "Bedroom" : {
-                "description" : '''You are in the Bedroom. It smells disgusting.\n
-                The door to the Upstairs Hallway is to the west''',
-                "item_desc" : '''The stench seems to be originating from a lump under the covers on the bed.''',
-                "west" : "Hallway",
-                "down" : "Kitchen",
-                "items": ["body"]
-            },
-            "Library" : {
-                "description" : '''The walls of the Library are lined floor to ceiling with shelves, \n
-                and each shelf is crammed with books that have no titles covered in a coat of dust.''',
-                "item_desc" : '''You spot a particularly 
-                ancient-looking tome under a reading chair by the window.
-                ''',
-                "east" : "Hallway",
-                "down" : "Kitchen",
-                "items": ["ancient tome"]
-            },
-            "Office" : {
-                "description" : '''You are in the office. A grand mahogany wood desk sits on the opposite 
-                end of the room.''',
-                "item_desc" : '''There are a variety of fat candles on either side of the desk, half-melted from \n
-                late nights spent working past dark. A few of them are still usable.''',
-                "north" : "Hallway",
-                "down" : "Foyer",
-                "items": ["candles"]
-            }
+There is darkness, and cold. Then, you feel... heavy. But you also feel strangely - inhumanley,
+perhaps - strong. You throw off the fabric around you, rise out of the bed for the first time
+in ... months? years? decades? into the Bedroom. 
 
+Now, there seem to be some unwanted guests around... what to do about them...
+    ''')
 
-          }
+# room descriptions contain items in the room, and directions you can go
+rooms = descriptions.roomdescr()
+upstairs_rooms = ["Library", "Hallway", "Bedroom", "Office", "Garden"]
+downstairs_rooms = ["Foyer", "Kitchen", "Living Room", "Garden"]
 
 # establish the initial game conditions
 currentRoom = "Kitchen"
 corporeal = False
 knowsRitual = False
 exorcistsAwake = False
+inventory = []
 
 # display the opening screen
 gameOpening()
@@ -117,42 +52,85 @@ gameOpening()
 while True:
     showStatus()
 
-    # the player MUST type something in
-    # otherwise input will keep asking
+    # the player MUST type something in, otherwise input will keep asking
     move = ''
     while move == '':  
         move = input('>')
 
-    # normalizing input:
-    # .lower() makes it lower case, .split() turns it to a list
-    # therefore, "get golden key" becomes ["get", "golden key"]          
+    # normalizing input:       
     move = move.lower().split(" ", 1)
 
-    #if the verb is go
+
+
+    #GO commands
+
+
+
     if move[0] == 'go':
         #check that their current room contains that direction
         if move[1] in rooms[currentRoom]:
             #set the current room to the new room
             currentRoom = rooms[currentRoom][move[1]]
-            
         #can't go to heaven
-        elif move[1] == "up":
+        elif currentRoom in upstairs_rooms and move[1] == "up":
             print("No, that's not the place for you.")
         #not ready for h-e-double-hockey-sticks
-        elif move[1] == "down":
+        elif currentRooom in downstairs_rooms and move[1] == "down":
             print("No, you're not ready to go there yet.")
-        # if it's a different invalid move
+        #invalid move
         else:
             print('You can\'t go that way!')
 
-    #if they type 'get' first
+        #specific movement outcomes while you are a ghost
+        if corporeal is False:
+            if currentRoom == "Garden":
+                if "candles" in inventory:
+                    #if you move into the garden and you have the candles but don't know the ritual
+                    if knowsRitual is False:
+                        print("I have the fire, but what is the chant?")
+                    #if you move into the garden with the candles and knowing the ritual
+                    else:
+                        getyabodyback()
+                        #These didn't get teleported with you
+                        inventory.remove("candles")
+                        inventory.remove("tome")
+                        #The body is no longer in the bedroom - it is you
+                        del rooms["Bedroom"]['items'][0]
+                        del rooms["Bedroom"]["item_desc"]
+                        #You can no longer phase through the floor
+                        for room in rooms:
+                            if "up" in room:
+                                del room["up"] 
+                            if "down" in room:
+                                del room["down"]
+                        #You have to use the stairs now
+                        rooms["Hallway"]["down"] = "Foyer"
+                        rooms["Foyer"]["up"] = "Hallway"
+
+                        #change the state
+                        corporeal = True
+                        currentRoom = "Bedroom"
+                #if you move into the garden and you know the ritual but don't have the candles
+                #I DON'T know why the last check corporeal is necessary but apparently it is
+                if "candles" not in inventory and knowsRitual is True and corporeal is False:
+                    print(corporeal)
+                    print("I know the chant, but how can I get fire?")
+        
+        #if you move into the living room for the first time as a ghost
+        #if you move into the living room for the first time as a zombie with no knife
+
+
+
+    #GET commands
+
+
     if move[0] == 'get' :
         # make two checks:
         # 1. if the current room contains an item
         # 2. if the item in the room matches the item the player wishes to get
-        if "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
+        if move[1] in rooms[currentRoom]['items']:
             #if item is KNIFE and you are NOT CORPOREAL
-            if (move[1] == "knife") and (corporeal == False):
+            if (move[1] == "knife" or move[1] == "body") and (corporeal == False):
                 print("That.... didn't work... hmmmmm")
             else:
                 #add the item to their inventory
@@ -160,8 +138,18 @@ while True:
                 #display a helpful message
                 print("You picked up the " + move[1] + ".")
                 #delete the item key:value pairs from the room's dictionary
-                del rooms[currentRoom]['item']
+                del rooms[currentRoom]['items'][0]
                 del rooms[currentRoom]["item_desc"]
+
+                if move [1] == "tome":
+                    print ('''The book responds to your touch and the pages flutter as they flip open to the dead center of the book. You read:
+\t There is a dark ritual I have discovered to rehome a spirit back into its earthly body...
+\t To perform the ritual, encircle the obelisk with flame, and recite these words:
+\t\tTuc dna. Em pleh os! Em pleh os! Em pleh os ro morf emac ti erehw kcab luos ym tup!
+
+... interesting.''')
+                    knowsRitual = True
+
         # if there's no item in the room or the item doesn't match
         else:
             #tell them they can't get it
@@ -182,41 +170,41 @@ while True:
         #endgame v1: if you have the knife and you enter the living room while the exorcists are sleeping
         if currentRoom == "Living Room" and exorcistsAwake == False:
             print('''The are strangers resting in sleeping bags surrounded by a circle of salt on the 
-            Living Room floor. There is various equipment positioned around the room, but none of it 
-            makes a sound. The exorcists remain asleep and you use the knife to clear them out. ''')
+Living Room floor. There is various equipment positioned around the room, but none of it 
+makes a sound. The exorcists remain asleep and you use the knife to clear them out. ''')
         #endgame v2: if you have the knife and you enter the Foyer while the exorcists are there
         elif currentRoom == "Foyer" and "items" in rooms[currentRoom]:
             print('''The exorcists are back with some new tools to use against you, 
-            but it's clear they were expecting a ghost.
-            When they see your newly reinhabited body and the knife in your hands they exchange a look, 
-            then bolt out the front door behind them before you can catch up to them.
-            This time, you know they are gone for good.''')
+but it's clear they were expecting a ghost.
+When they see your newly reinhabited body and the knife in your hands they exchange a look, 
+then bolt out the front door behind them before you can catch up to them.
+This time, you know they are gone for good.''')
         #endgame v3: if you have the knife and you enter any room with the exorcists
         elif "item" in rooms[currentRoom]:
             print('''The exorcists are back with some new tools to use against you, 
-            but it's clear they were expecting a ghost.
-            When they see your newly reinhabited body and the knife in your hands you see the panic in their eyes
-            You expected your half decomposed body to be slow, but that is not the case, and they 
-            cannot escape the point of your knife ''')
+but it's clear they were expecting a ghost.
+When they see your newly reinhabited body and the knife in your hands you see the panic in their eyes
+You expected your half decomposed body to be slow, but that is not the case, and they 
+cannot escape the point of your knife ''')
         print(''''\n\n 
             You continue to haunt your house in this rotting sack forever, until you are 
-            nothing but a skeleton, \n\t...then nothing but dust \n\t\t...then nothing but a ghost again.\n\n
+nothing but a skeleton, \n\t...then nothing but dust \n\t\t...then nothing but a ghost again.\n\n
             You win!''')
         break
     #endgame v4: if you have a body but no knife and you encounter the exorcists
     elif corporeal == True and "items" in rooms[currentRoom]:
         if "exorcists" in rooms[currentRoom]["items"]:
             print('''The exorcists are back with some new tools to use against you, 
-            but it's clear they were expecting a ghost.
-            When they see your newly reinhabited body and the knife in your hands panic briefly flashes through their eyes. 
-            Without a weapon to fight them off though, they overpower you quickly, and soon enough you are no more.\n
+but it's clear they were expecting a ghost.
+When they see your newly reinhabited body and the knife in your hands panic briefly flashes through their eyes. 
+Without a weapon to fight them off though, they overpower you quickly, and soon enough you are no more.\n
             You lose!''')
             break
     #endgame v5: if you encounter the awake exorcists before you have a body
     elif exorcistsAwake == True and "items" in rooms[currentRoom]:
         if "exorcists" in rooms[currentRoom]["items"]:
             print('''The exorcists are back with some new tools to use against you. They point the nozzle
-            of their strange machine at you, say words that make you glow and burn, and then you are no more. \n
+of their strange machine at you, say words that make you glow and burn, and then you are no more. \n
             You lose!''')
             break
 
@@ -237,3 +225,5 @@ while True:
         ##Better not disturb them
     ##If you don't have a body
         ##Wake up the exorcists
+
+#When 
