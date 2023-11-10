@@ -1,11 +1,30 @@
 #!/usr/bin/python3
 
 ##This is janky and I'm only a little sorry
-
+import threading
+import time
+import random
 import descriptions
 from gameutils import *
 """Driving a simple game framework with
    a dictionary object | Alta3 Research"""
+
+def movehunters():
+    time.sleep(30)
+    allrooms = upstairs_rooms + downstairs_rooms
+    while gameOver is False:
+        prevRoom = hunterRoom
+        time.sleep(10)
+        #decide what room the hunters are going to move to
+        roomnum = random.randint(0,7)
+        roomname = allrooms[roomnum]
+        #remove the hunters from the previous room they were in
+        #if this is their first time back in the house, no need
+        if prevRoom != "":
+            rooms[prevRoom]["items"].remove("strangers")
+        #put the hunters in their new location
+        rooms[roomname]["items"].append("strangers")
+        prevRoom = roomname
 
 def showStatus():
     """determine the current status of the player"""
@@ -16,16 +35,20 @@ def showStatus():
         print(rooms[currentRoom]["item_desc"])
     print("---------------------------")
 
-# establish some initial game conditions
+# establish some initial game conditions and helpful variables
 # room descriptions contain items in the room, and directions you can go
 rooms = descriptions.roomdescr()
 ends = descriptions.endings()
 upstairs_rooms = ["Library", "Hallway", "Bedroom", "Office", "Garden"]
 downstairs_rooms = ["Foyer", "Kitchen", "Living Room", "Garden"]
 currentRoom = "Kitchen"
+hunterRoom = "Living Room"
 corporeal = False
 huntersAwake = False
+gameOver = False
 inventory = []
+#prep getting the ghost hunters ready to move around
+hunterthread = threading.Thread(target=movehunters)
 
 # display the opening screen
 gameOpening()
@@ -65,7 +88,7 @@ while True:
         else:
             print('You can\'t go that way!')
 
-        #specific movement outcomes while you are a ghost
+        ###specific movement outcomes while you are a ghost###
         if corporeal is False:
             if currentRoom == "Garden":
                 if "candles" in inventory:
@@ -83,10 +106,10 @@ while True:
                         del rooms["Bedroom"]["item_desc"]
                         #You can no longer phase through the floor
                         for room in rooms:
-                            if "up" in room:
-                                del room["up"] 
-                            if "down" in room:
-                                del room["down"]
+                            if "up" in rooms[room]:
+                                del rooms[room]["up"] 
+                            if "down" in rooms[room]:
+                                del rooms[room]["down"]
                         #You have to use the stairs now
                         rooms["Hallway"]["down"] = "Foyer"
                         rooms["Foyer"]["up"] = "Hallway"
@@ -95,12 +118,20 @@ while True:
                         corporeal = True
                         currentRoom = "Bedroom"
                 #if you move into the garden and you know the ritual but don't have the candles
-                #I DON'T know why the last check corporeal is necessary but apparently it is
                 if "candles" not in inventory and "tome" in inventory:
                     print("I know the chant, but how can I get fire?")
-        
-        #if you move into the living room for the first time as a ghost
-        #if you move into the living room for the first time as a zombie with no knife
+            if currentRoom == "Living Room" and huntersAwake is False:
+                descriptions.wakethehunters()
+                huntersAwake = True
+                del rooms["Living Room"]["items"][0]
+                hunterRoom = ""
+                hunterthread.start()
+
+        ###specific outcomes in you are a zombie##
+        else:
+            if currentRoom == "Living Room" and huntersAwake is False and "knife" not in inventory:
+                descriptions.treadlightly()
+                currentRoom = "Kitchen"
 
     #===========
     #GET commands
@@ -124,22 +155,16 @@ while True:
                 del rooms[currentRoom]["item_desc"]
 
                 if move [1] == "tome":
-                    print ('''The book responds to your touch and the pages flutter as they flip open to the dead center of the book. You read:
-\t There is a dark ritual I have discovered to rehome a spirit back into its earthly body...
-\t To perform the ritual, encircle the obelisk with flame, and recite these words:
-\t\tTuc dna. Em pleh os! Em pleh os! Em pleh os ro morf emac ti erehw kcab luos ym tup!
-
-... interesting.''')
+                    descriptions.readthetome()
                     
-
         # if there's no item in the room or the item doesn't match
         else:
             #tell them they can't get it
             print('Can\'t get ' + move[1] + '!')
     
-    #===========
+    #==============
     #OTHER commands
-    #===========
+    #==============
 
     if move[0] == "inventory":
         print("Inventory:", inventory)
@@ -150,55 +175,40 @@ while True:
     if move[0] == "spoil":
         spoilers()
 
-    #===========
+    #=========
     #END GAMES
-    #===========
+    #=========
 
     if 'knife' in inventory:
         #endgame v1: if you have the knife and you enter the living room while the ghost hunters are sleeping
         if currentRoom == "Living Room" and huntersAwake == False:
             print(ends[1] + ends[0])
-            print("You win! You have reached ending #1/5.")
+            print("\nYou won! The ghost hunters were defeated. You have reached ending #1/5.")
+            gameOver = True
             break
         #endgame v2: if you have the knife and you enter the Foyer while the ghost hunters are there
-        elif currentRoom == "Foyer" and "strangers" in rooms[currentRoom]["items"]:
+        elif (currentRoom == "Foyer" or currentRoom == "Living Room") and "strangers" in rooms[currentRoom]["items"]:
             print(ends[2] + ends[0])
-            print("You win! You have reached ending #2/5.")
+            print("\nA draw! The ghost hunters ran away. You have reached ending #2/5.")
+            gameOver = True
             break
         #endgame v3: if you have the knife and you enter any room with the ghost hunters
-        elif "item" in rooms[currentRoom]:
+        elif "strangers" in rooms[currentRoom]["items"]:
             print(ends[3] + ends[0])
-            print("You win! You have reached ending #3/5.")
+            print("\nYou won! The ghost hunters were defeated. You have reached ending #3/5.")
+            gameOver = True
             break
     #endgame v4: if you have a body but no knife and you encounter the ghost hunters
-    elif corporeal == True and "items" in rooms[currentRoom]:
+    elif corporeal == True and "strangers" in rooms[currentRoom]["items"]:
         if "strangers" in rooms[currentRoom]["items"]:
             print(ends[4])
-            print("You lost! You have reached ending #4/5.")
+            print("You lost! The ghost hunters turned zombie hunter. You have reached ending #4/5.")
+            gameOver = True
             break
     #endgame v5: if you encounter the awakened ghost hunters before you have a body
-    elif huntersAwake == True and "items" in rooms[currentRoom]:
+    elif huntersAwake == True and "strangers" in rooms[currentRoom]["items"]:
         if "strangers" in rooms[currentRoom]["items"]:
             print(ends[5])
-            print("You lost! You have reached ending #5/5.")
+            print("You lost! The ghost hunters busted you. You have reached ending #5/5.")
+            gameOver = True
             break
-
-
-
-
-#Things that have to happen yet - 
-#When you go into the garden with the candles
-    ##Perform the ritual
-    ##Move current location to bedroom
-    ##Print words related to being in a new place
-    ##change description of the room
-    ##remove candles from inventory
-    ##change corporeal flag
-
-#When you move into the Living Room
-    ##If you have body but no knife
-        ##Better not disturb them
-    ##If you don't have a body
-        ##Wake up the exorcists
-
-#When 

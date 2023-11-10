@@ -1,3 +1,5 @@
+##A bank of descriptions and cutscene text
+
 def roomdescr():
 
     rooms = {
@@ -36,7 +38,7 @@ You don't feel any desire to leave the house. \n
             },
             "Living Room" : {
                 "description" : '''There is strange equipment piled around the Living Room, still blaring away. The circle of salt that the strangers 
-were sleeping within was ruined when they scampered out through the side door, which is still ajar. You aren't 
+were sleeping within was ruined when they scampered out through the side door, which is stil ajar. You aren't 
 interested in leaving the house to go after them anyway though. \n
 \tTo the west is the Kitchen.''',
                 "west" : "Kitchen",
@@ -60,7 +62,7 @@ The door to the Office is to the south.''',
 \tThe door to the Upstairs Hallway is to the west''',
                 "item_desc" : '''\nThe stench seems to be originating from a lump under the covers on the bed.''',
                 "west" : "Hallway",
-                "down" : "Kitchen",
+                "down" : "Livings Room",
                 "items": ["body"]
             },
             "Library" : {
@@ -96,40 +98,95 @@ You recite the words:
     Tuc dna. Em pleh os! Em pleh os! Em pleh os ro morf emac ti erehw kcab luos ym tup!
 
 There is darkness, and cold. Then, you feel... heavy. But you also feel strangely - inhumanley,
-perhaps - strong. You throw off the fabric around you, rise out of the bed for the first time
-in ... months? years? decades? into the Bedroom. 
+perhaps - strong. You throw off the fabric around you, rise for the first time
+in ... days? months? years? decades? and find yourself in the Bedroom of the house. 
 
 Now, there seem to be some unwanted guests around... what to do about them...
     ''')
+    #chant courtesy Mike Wazowski
 
 
 def endings():
     endings = [
-        ''''\n\n 
+        '''\n\n 
 You continue to haunt your house in this rotting sack forever, until you are nothing but a skeleton, \n\t...then nothing but dust \n\t\t...then nothing but a ghost again.\n\n''',
 
-        '''The are strangers resting in sleeping bags surrounded by a circle of salt on the 
-Living Room floor. There is various equipment positioned around the room, but none of it 
-makes a sound. The ghost hunters remain asleep and you use the knife to clear them out. ''',
+        '''
+There are three strangers resting in sleeping bags surrounded by a circle of salt on the Living Room floor. 
+There is various equipment positioned around the room, but none of it makes a sound - your presence seems 
+to go undetected. The ghost hunters remain asleep and you use the knife to clear them out. 
 
-        '''The strangers are back with some new tools to use against you, 
-but it's clear they were expecting a ghost.
-When they see your newly reinhabited body and the knife in your hands they exchange a look, 
-then bolt out the front door behind them before you can catch up to them.
-This time, you know they are gone for good.''',
+''',
 
-        '''The strangers are back with some new tools to use against you, 
-but it's clear they were expecting a ghost.
-When they see your newly reinhabited body and the knife in your hands you see the panic in their eyes
-You expected your half decomposed body to be slow, but that is not the case, and they 
-cannot escape the point of your knife''',
+        '''
+        
+The strangers are back with some new tools to use against you but it's clear they were expecting a ghost, 
+not a zombie - or whatever you are. When they see your newly reinhabited body and the knife in your hands 
+they exchange a look, then bolt out the open door behind them before you can catch up to them.
 
-        '''The strangers are back with some new tools to use against you, 
-but it's clear they were expecting a ghost.
-When they see your newly reinhabited body and the knife in your hands panic briefly flashes through their eyes. 
-Without a weapon to fight them off though, they overpower you quickly, and soon enough you are no more.''',
+This time, you know they are gone for good.
 
-        '''The ghost hunters are back with some new tools to use against you. They point the nozzle
-of their strange machine at you, say words that make you glow and burn, and then you are no more. '''
+''',
+
+        '''
+
+The strangers are back with some new tools to use against you but it's clear they were expecting a ghost, 
+not a zombie - or whatever you are. When they see your newly reinhabited body and the knife in your hands 
+you see the panic in their eyes. You expected your half decomposed body to be slow, but that is not the case, 
+and they cannot escape the point of your knife.
+
+''',
+
+        '''
+        
+The strangers are back with some new tools to use against you but it's clear they were expecting a ghost, 
+not a zombie - or whatever you are. When they see your newly reinhabited body panic briefly flashes through 
+their eyes. Without a weapon to fight them off though, they overpower you quickly, and soon enough you are no more.
+
+''',
+
+        '''
+        
+    Busted!
+        
+The ghost hunters are back with some new tools to use against you. They point the nozzle of their strange 
+machine at you, say words that make you glow and burn, and then you are no more. 
+
+'''
     ]
     return endings
+
+def treadlightly():
+    print('''
+There are three strangers resting in sleeping bags surrounded by a circle of salt on the 
+Living Room floor. There is various equipment positioned around the room, but none of it 
+makes a sound - your presence seems to go undetected. 
+
+You are determined to get these intruders out of your house, but as it stands you are outnumbered. 
+You'll have to come back with something that you can use to .... take care of them. 
+
+You silently retreat back into the kitchen.''')
+
+def readthetome():
+    print('''The book responds to your touch and the pages flutter as they flip open to the dead center of the book. You read:
+
+\t There is a dark ritual I have discovered to rehome a spirit back into its earthly body...
+\t To perform the ritual, encircle the obelisk with flame, and recite these words:
+\t\tTuc dna. Em pleh os! Em pleh os! Em pleh os ro morf emac ti erehw kcab luos ym tup!
+
+... interesting.''')
+
+def wakethehunters():
+    print('''
+You push back the beaded curtain and enter the living room. 
+
+There are three strangers resting in sleeping bags surrounded by a circle of salt on the 
+Living Room floor, but as quickly as you register their unwelcome precesence alarms start 
+to blare throughout the room from odd equipment that seems strategically placed. The noise
+awakens the strangers with a start and all three of them jump to their feet. They catch 
+sight of you and go pale, then scramble in a panic to escape the house out of a side door 
+on the opposite side of the room.
+
+They're gone for now, but you know they are probably out preparing themselves to come back
+and banish you from the house. You had better be prepared for when they return.
+''')
