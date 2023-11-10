@@ -11,6 +11,7 @@ from gameutils import *
 
 def movehunters():
     time.sleep(30)
+    print("The ghost hunters are now wandering the house...")
     allrooms = upstairs_rooms + downstairs_rooms
     while gameOver is False:
         prevRoom = hunterRoom
