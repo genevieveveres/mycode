@@ -3,40 +3,40 @@
     "name" : "Chicken Cordon Bleu",
     "category" : "Main Entree",
     "calories" : 522,
-    "source" : "allrecipes.com"
+    "source" : "https://tastesbetterfromscratch.com/chicken-cordon-bleu/"
 },
 {
     "id": 2,
     "name":"Ramen Coleslaw",
     "category" : "Sides",
     "calories" : 206,
-    "source" : "midwestliving.com"
+    "source" : "https://www.midwestliving.com/recipe/salads/oriental-coleslaw/"
 },
 {
     "id": 3,
     "name" : "Chicken Parmesan",
     "category" : "Main Entree",
     "calories" : 600,
-    "source" : "goodfoods.com"
+    "source" : "https://cafedelites.com/crispy-chicken-parmesan/"
 },
 {
     "id": 4,
     "name" : "Borscht",
     "category" : "Soup",
     "calories" : 400,
-    "source" : "slavicfoods.ru"
+    "source" : "Babushka"
 },
 {
     "id": 5,
     "name" : "Brownies",
     "category" : "Desserts",
     "calories" : 900,
-    "source" : "sugarkills.com"
+    "source" : "https://www.inspiredtaste.net/24412/cocoa-brownies-recipe/"
 },
 {
     "id": 6,
     "name" : "Fruit Salad",
     "category" : "Desserts",
     "calories" : 100,
-    "source" : "healthysnacks.org"
+    "source" : "https://www.delish.com/cooking/recipe-ideas/a19609963/easy-fruit-salad-recipe/"
 }]

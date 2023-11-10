@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import requests
-
+import json
 from pprint import pprint
-URL= "http://0.0.0.0:2224/data"
+URL= "http://0.0.0.0:2224/"
 
-response = requests.get(URL).json()
+response = requests.get(URL + "data").json()
 
-print(response)
+pprint(response)
