@@ -33,9 +33,10 @@ processes = []
 # we want to be careful with the number of workers
 # if you are making thousands of requests, does your target have limiting engaged?
 # beware you don't overload internal or external services; 5 to 10 is fine for most scripts
-with ThreadPoolExecutor(max_workers=5) as executor:
+with ThreadPoolExecutor(max_workers=5) as slappy:
     for url in url_list:
-        processes.append(executor.submit(download_file, url))   # add a new task to the threadpool and store in processes list
+        x = slappy.submit(download_file, url)
+        processes.append(x)   # add a new task to the threadpool and store in processes list
 
 for task in as_completed(processes):    # yields the items in processes as they complete (it finished or was canceled)
     print(task.result())
