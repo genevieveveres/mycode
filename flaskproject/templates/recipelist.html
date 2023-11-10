@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Harry Potter Quotes Table</title>
+</head>
+<body>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Calories</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row["name"] }}</td>
+      <td>{{ row["category"] }}</td>
+      <td>{{ row["calories"] }}</td>
+      <td>{{ row["source"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+<div class="links">
+  <a href="/data">Database JSON</a><br>
+  <a href="/form">Add a new recipe</a><br>
+  <a href="/">Homepage</a>
+</div>
+
+
+</body>
+</html>

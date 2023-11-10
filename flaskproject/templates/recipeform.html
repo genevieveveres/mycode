@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add A Food</title>
+</head>
+<body>
+    <form action = "{{ url_for('addrecipe') }}" method = "POST">
+
+        <label for="name">Dish Name:</label>
+        <input type="text" name="name" required>
+        <br>
+        <label for="cat">Category:</label>
+        <input type="text" name="cat">
+        <br>
+        <label for="cals">Calories:</label>
+        <input type="text" name="cals">
+        <br>
+        <label for="src">Source:</label>
+        <input type="text" name="src">
+        <br>
+        <input type="submit" value="Submit">
+        <br>
+        <br>
+    </form>
+    
+    <div class="links">
+        <a href="/data">Database JSON</a><br>
+        <a href="/list">All recipes</a><br>
+        <a href="/">Homepage</a>
+    </div>
+</body>
+</html>
